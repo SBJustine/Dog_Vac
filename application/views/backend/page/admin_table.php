@@ -161,13 +161,13 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                 <div class="form-group">
+                              <div class="form-group">
                                     <label for="date_added">Date Added</label>
-                                    <input type="number" class="form-control" name="date_added" id="date_added" value="<?= $property->date_added ?? '' ?>">
+                                    <input type="date" class="form-control" name="date_added" id="date_added" value="<?= $property->date_added ?? '' ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input type="text" class="form-control" name="password" id="password" value="<?= $property->password ?? '' ?>" read_only>
+                                    <input type="text" class="form-control" name="password" id="password" value="<?= $property->password ?? '' ?>">
                                 </div>
                                 
                             </div>
@@ -191,69 +191,68 @@
     var adminID;
 
     $(document).ready(function() {
-        $('table.datanew tbody').on('click', 'tr', function()
-         {
+        $('table.datanew tbody').on('click', 'tr', function() {
             adminID = $(this).data('admin-id');
-
             $('#updateadminModal').modal('show');
 
-            $.ajax({
-                type: "POST",
-                url: "Admin_Controller/view_admin",
-                data: { adminID: adminID },
-                success: function(response) {
-                    var adminData = JSON.parse(response);
-                    if (adminData && !$.isEmptyObject(adminData)) {
-                        console.log("Admin data:", adminData);
-                        $('#fullname').val(adminData.fullname);
-                        $('#email').val(adminData.email);
-                        $('#password').val(adminData.password);
-                        $('#date_added').val(adminData.date_added);
-                    } else {
-                        console.error('Empty admin data received');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
+        $.ajax({
+            type: "POST",
+            url: "Admin_Controller/view_admin",
+            data: { adminID: adminID },
+            success: function(response) {
+                var adminData = JSON.parse(response);
+                if (adminData && !$.isEmptyObject(adminData)) {
+                    console.log("Admin data:", adminData);
+                    $('#fullname').val(adminData.fullname);
+                    $('#email').val(adminData.email);
+                    $('#password').val(adminData.password);
+                    // Format the date as needed before assigning it to the input field
+                    var formattedDate = formatDate(adminData.date_added); // Assuming you have a function to format the date
+                    $('#date_added').val(formattedDate);
+                } else {
+                    console.error('Empty admin data received');
                 }
-            });
-        });
+            },
 
-        $('#update_button').click(function() {
-            var fullname = $('#fullname').val();
-            var email = $('#email').val();
-            var password = $('#password').val();
-            var date_added = $('#date_added').val();
-
-            var updateadminID = adminID;
-            $.ajax({
-                type: "POST",
-                url: "Admin_Controller/update_admin",
-                data: {
-                    fullname: fullname,
-                    email: email,
-                    password: password,
-                    date_added: date_added,
-                    adminID: updateadminID,
-                },
-                success: function(response) {
-                    console.log("Admin updated successfully:", response);
-                    $('#updateadminModal').modal('hide');
-                    // Display success message
-                    $('#updateSuccessModal').modal('show');
-                    // Reload the page
-                    location.reload();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error updating admin:', error);
-                    // Display error message
-                    $('#updateErrorModal').modal('show');
-                }
-            });
-        });
-
-        $('#update_cancel').click(function() {
-            $('#updateadminModal').modal('hide');
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
         });
     });
+
+    $('#update_button').click(function() {
+        var fullname = $('#fullname').val();
+        var email = $('#email').val();
+        var password = $('#password').val();
+        var date_added = $('#date_added').val();
+        var updateadminID = adminID;
+
+        $.ajax({
+            type: "POST",
+            url: "Admin_Controller/update_admin",
+            data: {
+                fullname: fullname,
+                email: email,
+                password: password,
+                date_added: date_added,
+                adminID: updateadminID,
+            },
+            success: function(response) {
+                console.log("Admin updated successfully:", response);
+                $('#updateadminModal').modal('hide');
+                $('#updateSuccessModal').modal('show');
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating admin:', error);
+                $('#updateErrorModal').modal('show');
+            }
+        });
+    });
+
+    $('#update_cancel').click(function() {
+        $('#updateadminModal').modal('hide');
+    });
+});
+
 </script>

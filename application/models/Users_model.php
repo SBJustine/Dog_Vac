@@ -123,6 +123,7 @@ class Users_model extends CI_Model {
 
 		}
 
+
 		function fetch_allemployee($id){
 
 			$query = $this->db->query("SELECT * FROM `employee_table`   " );
@@ -166,22 +167,39 @@ class Users_model extends CI_Model {
 		// 	return $query->result();
 
 		// }
-		public function update_admin($id, $data) {  
+		public function update_admin($id, $data) {
 			$this->db->where('admin_id', $id);
 			$this->db->update('admin_users', $data);
-		
+			
 			return $this->db->affected_rows() > 0;
-		}	
-
-		function get_info($id){
+		}
+		
+		function get_info($id) {
 			$query = $this->db->select('*')
 								->from('admin_users')
 								->where('admin_id', $id)
 								->get();
-
+		
 			return $query->result();
-
 		}
+
+
+		//employee table update
+
+		public function update_employee($id, $data) {  
+			$this->db->where('employeeID', $id);
+			$this->db->update('employee_table', $data);
+			return $this->db->affected_rows() > 0;
+		}   
+		
+		function get_infoemployee($id){
+			$query = $this->db->select('*')
+							->from('employee_table')
+							->where('employeeID', $id)
+							->get();
+			return $query->row_array();
+		}
+		
 
 		function fetch_info()
 		{

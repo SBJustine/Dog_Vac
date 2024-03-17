@@ -42,76 +42,111 @@ class Admin_Controller extends CI_Controller {
 		$this->load->view('backend/page/login');
 	}
 	
-public function view_admin(){
-
-	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-		if (!isset($_POST['adminID'])) {
-			echo json_encode(['error' => 'PropertyID is not provided']);
-			return;
-		}
-		
-		$id = $_POST['adminID'];
-		
-		$admin = $this->Users_model->get_info($id);
-		
-		if ($admin) {
-			echo json_encode($admin);
+	public function view_admin() {
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			if (!isset($_POST['adminID'])) {
+				echo json_encode(['error' => 'AdminID is not provided']);
+				return;
+			}
+			
+			$id = $_POST['adminID'];
+			
+			$admin = $this->Users_model->get_info($id);
+			
+			if ($admin) {
+				echo json_encode($admin[0]); // Assuming you expect only one result
+			} else {
+				echo json_encode(['error' => 'Admin not found']);
+			}
 		} else {
-			echo json_encode(['error' => 'Admin not found']);
+			echo json_encode(['error' => 'Invalid request method']);
 		}
-	} else {
-		echo json_encode(['error' => 'Invalid request method']);
 	}
-
-}	
-
-
-public function update_admin() {
-	$adminID = $this->input->post('adminID');
-	 
-
-	$fullname = $this->input->post('fullname');
 	
-
-	$email = $this->input->post('email');
-	 
-
-	$password = $this->input->post('password');
+	public function update_admin() {
+		$adminID = $this->input->post('adminID');
+		
+		$data = array();
 	
-
-	$date_added = $this->input->post('date_added');
+		$fullname = $this->input->post('fullname');
+		if ($fullname !== null) {
+			$data['fullname'] = $fullname;
+		}
 	
-
- 
-
-	$data = array();
-
-	// if ($adminID !== null) {
-	// 	$data['adminID'] = $adminID;
-	// }
-	if ($fullname !== null) {
-		$data['fullname'] = $fullname;
+		$email = $this->input->post('email');
+		if ($email !== null) {
+			$data['email'] = $email;
+		}
+	
+		$password = $this->input->post('password');
+		if ($password !== null) {
+			$data['password'] = $password;
+		}
+	
+		$date_added = $this->input->post('date_added');
+		if ($date_added !== null) {
+			$data['date_added'] = $date_added;
+		}
+	
+		$update_result = $this->Users_model->update_admin($adminID, $data);
+	
+		if ($update_result) {
+			echo json_encode(array('success' => true));
+		} else {
+			$error_message = $this->db->error()['message'];
+			echo json_encode(array('error' => true, 'message' => 'Failed to update admin: ' . $error_message));
+		}
 	}
-	if ($email !== null) {
-		$data['email'] = $email;
-	}
-	if ($email !== null) {
-		$data['password'] = $password;
-	}
-	if ($email !== null) {
-		$data['date_added'] = $date_added;
-	}
 
 
-	$update_result = $this->Users_model->update_admin($id, $data);
+	// employee table update
 
-	if ($update_result) {
-		echo json_encode(array('success' => true));
-	} else {
-		$error_message = $this->db->error()['message'];
-		echo json_encode(array('error' => true, 'message' => 'Failed to update admin: ' . $error_message));
+	public function view_employee() {
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			if (!isset($_POST['employeeID'])) {
+				echo json_encode(['error' => 'Employee ID is not provided']);
+				return;
+			}
+	
+			$id = $_POST['employeeID'];
+	
+			$employee = $this->Users_model->get_infoemployee($id);
+	
+			if ($employee) {
+				echo json_encode($employee);
+			} else {
+				echo json_encode(['error' => 'Employee not found']);
+			}
+		} else {
+			echo json_encode(['error' => 'Invalid request method']);
+		}
 	}
-}
+	
+	public function update_employee() {
+		$employeeID = $this->input->post('employeeID');
+		// Retrieve other posted data similarly for other fields
+	
+		$data = array(
+			'employeeName' => $this->input->post('employeeName'),
+			'employeePosition' => $this->input->post('employeePosition'),
+			'employeeAddress' => $this->input->post('employeeAddress'),
+			'employeeAge' => $this->input->post('employeeAge'),
+			'employeeSex' => $this->input->post('employeeSex'),
+			'employeePhoneNum' => $this->input->post('employeePhoneNum'),
+			'employeeStatus' => $this->input->post('employeeStatus'),
+			'employeeAdded' => $this->input->post('employeeAdded')
+		);
+	
+		$update_result = $this->Users_model->update_employee($employeeID, $data);
+	
+		if ($update_result) {
+			echo json_encode(array('success' => true));
+		} else {
+			$error_message = $this->db->error()['message'];
+			echo json_encode(array('error' => true, 'message' => 'Failed to update employee: ' . $error_message));
+		}
+	}
+	
 
 
 	

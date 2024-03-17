@@ -28,6 +28,7 @@
                                             <input type="text" name="appointmentPetName" placeholder="Name of pet">
                                         </div>
                                     </div>
+
                                     <!-- <div class="col-lg-6 col-md-6">
                                         <div class="form-box email-icon mb-30">
                                             <input type="text" name="address" placeholder="Services">
@@ -55,6 +56,7 @@
                                         <div class="form-box email-icon mb-30"></div>
                                         <input type="date" name="appointmentDate" value="" class="form-control">
                                    </div>
+                                   
                                    <div class="col-lg-12">
                                         <div class="submit-info" style="margin-top:50px">
                                             <button class="btn submit-btn2" type="submit" style="background-color: maroon; color: white;">Submit Now</button>

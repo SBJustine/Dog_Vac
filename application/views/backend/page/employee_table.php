@@ -19,7 +19,7 @@
                                 </div>
                             </div>
                         <div class="table-responsive">
-                            <table class="table text-start align-middle table-bordered table-hover mb-0" id="employeeTable">
+                            <table class="table datanew" id="employeeTable">
                                 <thead>
                                     <tr>
                                         <th scope="col" onclick="sortTableEmployee(0)">
@@ -72,7 +72,7 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($employeeUsers as $key => $user): ?>
-                                        <tr class="<?php echo $key % 2 === 0 ? 'bg-light' : 'bg-white'; ?>">
+                                        <tr class="<?php echo $key % 2 === 0 ? 'bg-light' : 'bg-white'; ?>" data-employee-id="<?= $user->employeeID; ?>">
                                             <td><?php echo $user->employeeID; ?></td>
                                             <td><?php echo $user->employeeName; ?></td>
                                             <td><?php echo $user->employeePosition; ?></td>
@@ -174,5 +174,170 @@
                 }
             }
         }
+    });
+</script>
+
+
+
+
+<div id="updateEmployeeModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Employee Information</h4>
+            </div>
+            <div class="modal-body">
+                <!-- Form to update employee information -->
+                <form autocomplete="off" class="form" role="form" action="<?= base_url(); ?>index.php/update_employee" method="post" id="employeeUpdateForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="employeeName">Name</label>
+                                <input type="text" class="form-control" name="employeeName" id="employeeName">
+                            </div>
+                            <div class="form-group">
+                                <label for="employeePosition">Position</label>
+                                <input type="text" class="form-control" name="employeePosition" id="employeePosition">
+                            </div>
+                            <div class="form-group">
+                                <label for="employeeAddress">Address</label>
+                                <input type="text" class="form-control" name="employeeAddress" id="employeeAddress">
+                            </div>
+                            <div class="form-group">
+                                <label for="employeeAge">Age</label>
+                                <input type="number" class="form-control" name="employeeAge" id="employeeAge">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="employeeSex">Sex</label>
+                                <select class="form-control" name="employeeSex" id="employeeSex">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="employeePhoneNum">Phone Number</label>
+                                <input type="text" class="form-control" name="employeePhoneNum" id="employeePhoneNum">
+                            </div>
+                            <div class="form-group">
+                                <label for="employeeStatus">Status</label>
+                                <select class="form-control" name="employeeStatus" id="employeeStatus">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="employeeAdded">Date Added</label>
+                                <input type="date" class="form-control" name="employeeAdded" id="employeeAdded">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="updateEmployeeButton">Update</button>
+                <button type="button" class="btn btn-secondary" id="updateEmployeeCancel" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+    var employeeID; // Define a global variable to store employeeID
+
+    $(document).ready(function() {
+    var employeeID;
+
+    $('table.datanew tbody').on('click', 'tr', function() {
+        employeeID = $(this).data('employee-id');
+        $('#updateEmployeeModal').modal('show');
+
+        $.ajax({
+            type: "POST",
+            url: "Admin_Controller/view_employee",
+            data: { employeeID: employeeID },
+            success: function(response) {
+                console.log("Response from server:", response);
+
+                // Attempt to parse response as JSON
+                var employeeData;
+                try {
+                    employeeData = JSON.parse(response);
+                    console.log("Parsed employee data:", employeeData);
+                } catch (error) {
+                    console.error('Error parsing response as JSON:', error);
+                    return;
+                }
+
+                // Check if employeeData is not empty and has required fields
+                if (employeeData && employeeData.employeeName && employeeData.employeePosition) {
+                    console.log("Populating modal fields...");
+                    // Populate modal fields with employee data
+                    $('#employeeName').val(employeeData.employeeName);
+                    $('#employeePosition').val(employeeData.employeePosition);
+                    $('#employeeAddress').val(employeeData.employeeAddress);
+                    $('#employeeAge').val(employeeData.employeeAge);
+                    $('#employeeSex').val(employeeData.employeeSex);
+                    $('#employeePhoneNum').val(employeeData.employeePhoneNum);
+                    $('#employeeStatus').val(employeeData.employeeStatus);
+                    $('#employeeAdded').val(employeeData.employeeAdded);
+                } else {
+                    console.error('Invalid or incomplete employee data received');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+
+        $('#updateEmployeeButton').click(function() {
+            var employeeName = $('#employeeName').val();
+            var employeePosition = $('#employeePosition').val();
+            var employeeAddress = $('#employeeAddress').val();
+            var employeeAge = $('#employeeAge').val();
+            var employeeSex = $('#employeeSex').val();
+            var employeePhoneNum = $('#employeePhoneNum').val();
+            var employeeStatus = $('#employeeStatus').val();
+            var employeeAdded = $('#employeeAdded').val();
+            var updateemployeeID = employeeID;
+
+            // Update employee data using AJAX
+            $.ajax({
+                type: "POST",
+                url: "Admin_Controller/update_employee",
+                data: { 
+                    employeeID: updateemployeeID, // Pass employeeID
+                    employeeName: employeeName,
+                    employeePosition: employeePosition,
+                    employeeAddress: employeeAddress,
+                    employeeAge: employeeAge,
+                    employeeSex: employeeSex,
+                    employeePhoneNum: employeePhoneNum,
+                    employeeStatus: employeeStatus,
+                    employeeAdded: employeeAdded
+                },
+
+                success: function(response) {
+                console.log("Employee updated successfully:", response);
+                $('#updateEmployeeModal').modal('hide');
+                $('#updateSuccessModal').modal('show');
+                location.reload();
+            },
+                error: function(xhr, status, error) {
+                    console.error('Error updating employee:', error);
+                    // Display error message
+                    $('#updateErrorModal').modal('show');
+                }
+            });
+        });
+
+        $('#updateEmployeeCancel').click(function() {
+            $('#updateEmployeeModal').modal('hide');
+        });
     });
 </script>

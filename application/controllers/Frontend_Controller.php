@@ -126,7 +126,7 @@ class Frontend_Controller extends CI_Controller {
 			redirect('home'); // Redirect to login page if not logged in
 		}
 		
-		$user_id = $this->session->userdata('user_id');
+		// $user_id = $this->session->userdata('user_id');
 		if ($this->form_validation->run() !== FALSE) {
 			// Validation failed, redirect back to the form
 			$this->create_appointment();
@@ -134,7 +134,7 @@ class Frontend_Controller extends CI_Controller {
 			// Validation succeeded, proceed with data insertion
 			$data = array(
 				'appointmentName' => $this->input->post('appointmentName'),
-				'appointmentClientId' => $user_id,
+				// 'appointmentClientId' => $user_id,
 				'appointmentPetName' => $this->input->post('appointmentPetName'),
 				'vaccine' => $this->input->post('vaccine'),
 				'appointmentDate' => $this->input->post('appointmentDate'),
