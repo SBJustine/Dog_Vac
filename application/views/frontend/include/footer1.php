@@ -30,10 +30,10 @@
                             <div class="footer-tittle">
                                 <h4>Company</h4>
                                 <ul>
-                                    <li><a  href="<?= base_url();?>index.php/home">Home</a></li>
-                                    <li><a  href="<?= base_url();?>index.php/about">About Us</a></li>
-                                    <li><a  href="<?= base_url();?>index.php/services">Services</a></li>
-                                    <li><a  href="<?= base_url();?>index.php/contact">  Contact Us</a></li>
+                                    <li><a  href="<?= base_url();?>index.php/home1">Home</a></li>
+                                    <li><a  href="<?= base_url();?>index.php/about1">About Us</a></li>
+                                    <li><a  href="<?= base_url();?>index.php/services1">Services</a></li>
+                                    <li><a  href="<?= base_url();?>index.php/contact1">  Contact Us</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -43,9 +43,9 @@
                             <div class="footer-tittle">
                                 <h4>Services</h4>
                                 <ul>
-                                    <li><a href="<?= base_url();?>index.php/services">Pet Vaccination</a></li>
-                                    <li><a href="<?= base_url();?>index.php/services">Pet Grooming</a></li>
-                                    <li><a href="<?= base_url();?>index.php/services">Pet Treatment</a></li>
+                                    <li><a href="<?= base_url();?>index.php/services1">Pet Vaccination</a></li>
+                                    <li><a href="<?= base_url();?>index.php/services1">Pet Grooming</a></li>
+                                    <li><a href="<?= base_url();?>index.php/services1">Pet Treatment</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -55,9 +55,9 @@
                             <div class="footer-tittle">
                                 <h4>Get in Touch</h4>
                                 <ul>
-                                 <li><a href="<?= base_url();?>index.php/contact">09959401818 | 09602016523</a></li>
+                                 <li><a href="<?= base_url();?>index.php/contact1">09959401818 | 09602016523</a></li>
                                  <li><a href="https://www.facebook.com/OrigVetCare"> @origvetcare | FB Page</a></li>
-                                 <li><a href="<?= base_url();?>index.php/contact">1193 Bohol Circumferential Road,
+                                 <li><a href="<?= base_url();?>index.php/contact1">1193 Bohol Circumferential Road,
                                     CPG North Avenue, Ubujan District,
                                     Tagbilaran City, Bohol
                                  </a></li>

@@ -200,6 +200,38 @@ class Users_model extends CI_Model {
 			return $query->row_array();
 		}
 		
+		//client update
+
+		public function update_client($id, $data) {  
+			$this->db->where('client_id', $id);
+			$this->db->update('client_table', $data);
+			return $this->db->affected_rows() > 0;
+		}   
+		
+		public function get_client_info($id){
+			$query = $this->db->select('*')
+							->from('client_table')
+							->where('client_id', $id)
+							->get();
+			return $query->row_array();
+		}
+
+		// pet update 
+
+		public function update_pet($id, $data) {  
+        $this->db->where('client_id', $id);
+        $this->db->update('pet_users', $data);
+        return $this->db->affected_rows() > 0;
+    }   
+    
+    public function get_pet_info($id){
+        $query = $this->db->select('*')
+                        ->from('pet_users')
+                        ->where('client_id', $id)
+                        ->get();
+        return $query->row_array();
+    }
+
 
 		function fetch_info()
 		{

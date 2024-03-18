@@ -14,8 +14,8 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Appointments</a>
                     <div class="dropdown-menu bg-transparent border-0">
-                        <a href="<?= base_url();?>index.php/add_appointments" class="dropdown-item">New Appointment</a>
                         <a href="<?= base_url();?>index.php/appointment_list" class="dropdown-item">List of Appointments</a>
+                        <a href="<?= base_url();?>index.php/dashboard" class="dropdown-item">History of Appointments</a>
                     </div>
                 </div>
 

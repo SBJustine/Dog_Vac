@@ -147,6 +147,101 @@ class Admin_Controller extends CI_Controller {
 		}
 	}
 	
+//client update
+
+public function view_client() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (!isset($_POST['client_id'])) {
+            echo json_encode(['error' => 'Client ID is not provided']);
+            return;
+        }
+
+        $id = $_POST['client_id'];
+
+        $client = $this->Users_model->get_client_info($id);
+
+        if ($client) {
+            echo json_encode($client);
+        } else {
+            echo json_encode(['error' => 'Client not found']);
+        }
+    } else {
+        echo json_encode(['error' => 'Invalid request method']);
+    }
+}
+
+public function update_client() {
+    $client_id = $this->input->post('client_id');
+    // Retrieve other posted data similarly for other fields
+
+    $data = array(
+        'client_fullname' => $this->input->post('clientName'),
+        'client_address' => $this->input->post('clientAddress'),
+        'phone_number' => $this->input->post('clientPhoneNumber'),
+        'sex' => $this->input->post('clientSex'),
+        'client_email' => $this->input->post('clientEmail'),
+        'password' => $this->input->post('clientPassword'),
+        'client_status' => $this->input->post('clientStatus'),
+        'date_added' => $this->input->post('clientAdded')
+    );
+
+    $update_result = $this->Users_model->update_client($client_id, $data);
+
+    if ($update_result) {
+        echo json_encode(array('success' => true));
+    } else {
+        $error_message = $this->db->error()['message'];
+        echo json_encode(array('error' => true, 'message' => 'Failed to update client: ' . $error_message));
+    }
+}
+
+
+// pet update 
+
+public function view_pet() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (!isset($_POST['pet_id'])) { // Fixing the key name to check for pet_id
+            echo json_encode(['error' => 'Pet ID is not provided']);
+            return;
+        }
+
+        $id = $_POST['pet_id']; // Fixing the variable name to pet_id
+
+        $pet = $this->Users_model->get_pet_info($id);
+
+        if ($pet) {
+            echo json_encode($pet);
+        } else {
+            echo json_encode(['error' => 'Pet not found']);
+        }
+    } else {
+        echo json_encode(['error' => 'Invalid request method']);
+    }
+}
+
+public function update_pet() {
+    $pet_id = $this->input->post('pet_id'); // Fixing the variable name to pet_id
+    // Retrieve other posted data similarly for other fields
+
+    $data = array(
+        'pet_name' => $this->input->post('pet_name'),
+        'pet_breed' => $this->input->post('pet_breed'),
+        'pet_age' => $this->input->post('pet_age'),
+        'pet_gender' => $this->input->post('pet_gender'),
+        'pet_species' => $this->input->post('pet_species'),
+        'pet_color' => $this->input->post('pet_color'),
+        // Add other fields as needed
+    );
+
+    $update_result = $this->Users_model->update_pet($pet_id, $data);
+
+    if ($update_result) {
+        echo json_encode(array('success' => true));
+    } else {
+        $error_message = $this->db->error()['message'];
+        echo json_encode(array('error' => true, 'message' => 'Failed to update pet: ' . $error_message));
+    }
+}
 
 
 	

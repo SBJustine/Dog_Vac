@@ -74,71 +74,7 @@
     </div>
 </main>
 
-<script>
-    function sortTable(columnIndex) {
-        var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("adminTable");
-        switching = true;
-        var sortOrder = table.rows[0].getElementsByTagName("th")[columnIndex].getAttribute("data-sort");
-        
-        while (switching) {
-            switching = false;
-            rows = table.rows;
-            for (i = 1; i < (rows.length - 1); i++) {
-                shouldSwitch = false;
-                x = rows[i].getElementsByTagName("td")[columnIndex];
-                y = rows[i + 1].getElementsByTagName("td")[columnIndex];
-                
-                if (sortOrder === "asc") {
-                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                } else {
-                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                }
-            }
-            if (shouldSwitch) {
-                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                switching = true;
-            }
-        }
-        // Toggle sorting order
-        var newSortOrder = sortOrder === "asc" ? "desc" : "asc";
-        table.rows[0].getElementsByTagName("th")[columnIndex].setAttribute("data-sort", newSortOrder);
-        
-        // Update arrow icon
-        var arrow = table.rows[0].getElementsByTagName("th")[columnIndex].querySelector(".arrow");
-        if (newSortOrder === "asc") {
-            arrow.innerHTML = "&#9650;"; // Up arrow
-        } else {
-            arrow.innerHTML = "&#9660;"; // Down arrow
-        }
-    }
 
-    // Search Function
-    document.getElementById("searchInput").addEventListener("input", function() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("searchInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("adminTable");
-        tr = table.getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[1]; // Change index to the column you want to search
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    });
-</script>
 
 <div id="updateadminModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -255,4 +191,70 @@
     });
 });
 
+</script>
+
+<script>
+    function sortTable(columnIndex) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("adminTable");
+        switching = true;
+        var sortOrder = table.rows[0].getElementsByTagName("th")[columnIndex].getAttribute("data-sort");
+        
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("td")[columnIndex];
+                y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+                
+                if (sortOrder === "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+        // Toggle sorting order
+        var newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+        table.rows[0].getElementsByTagName("th")[columnIndex].setAttribute("data-sort", newSortOrder);
+        
+        // Update arrow icon
+        var arrow = table.rows[0].getElementsByTagName("th")[columnIndex].querySelector(".arrow");
+        if (newSortOrder === "asc") {
+            arrow.innerHTML = "&#9650;"; // Up arrow
+        } else {
+            arrow.innerHTML = "&#9660;"; // Down arrow
+        }
+    }
+
+    // Search Function
+    document.getElementById("searchInput").addEventListener("input", function() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("adminTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1]; // Change index to the column you want to search
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    });
 </script>

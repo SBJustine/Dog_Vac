@@ -30,7 +30,7 @@
                                         <th scope="col">Type of Vaccine</th>
                                         <th scope="col">Date Added<span class="arrow"></span></th>
                                         <th scope="col">Contact Number</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col" colspan="2">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -43,7 +43,10 @@
                                             <td><?php echo $user->appointmentDate; ?></td>
                                             <td><?php echo $user->appointmentContactNumber; ?></td>
                                             <td>
-                                                <button class="btn btn-primary">Update</button>
+                                                <button class="btn btn-primary">Approve</button>
+                                    </td>
+                                    <td>
+                                                <button class="btn btn-primary">Decline</button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

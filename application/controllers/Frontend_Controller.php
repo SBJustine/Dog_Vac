@@ -54,7 +54,7 @@ class Frontend_Controller extends CI_Controller {
 		$data['website_info'] = $this->Users_model->fetch_all("website_info");
 		$this->load->view('frontend/include/header1',$data);
 		$this->load->view('frontend/page/home1',$data);
-		$this->load->view('frontend/include/footer',$data);
+		$this->load->view('frontend/include/footer1',$data);
 	}
 	public function about()
 	{
@@ -68,7 +68,7 @@ class Frontend_Controller extends CI_Controller {
 		$data['website_info'] = $this->Users_model->fetch_all("website_info");
 		$this->load->view('frontend/include/header1',$data);
 		$this->load->view('frontend/page/about1',$data);
-		$this->load->view('frontend/include/footer',$data);
+		$this->load->view('frontend/include/footer1',$data);
 	}
 	public function services()
 	{
@@ -82,7 +82,7 @@ class Frontend_Controller extends CI_Controller {
 		$data['website_info'] = $this->Users_model->fetch_all("website_info");
 		$this->load->view('frontend/include/header1',$data);
 		$this->load->view('frontend/page/services1',$data);
-		$this->load->view('frontend/include/footer',$data);
+		$this->load->view('frontend/include/footer1',$data);
 	}
 	public function contact()
 	{
@@ -96,7 +96,7 @@ class Frontend_Controller extends CI_Controller {
 		$data['website_info'] = $this->Users_model->fetch_all("website_info");
 		$this->load->view('frontend/include/header1',$data);
 		$this->load->view('frontend/page/contact1',$data);
-		$this->load->view('frontend/include/footer',$data);
+		$this->load->view('frontend/include/footer1',$data);
 	}
 	// public function appointment()
 	// {
