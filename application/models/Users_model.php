@@ -233,6 +233,23 @@ class Users_model extends CI_Model {
     }
 
 
+	// product update 
+
+	public function update_product($id, $data) {  
+		$this->db->where('productID', $id);
+		$this->db->update('product_table', $data);
+		return $this->db->affected_rows() > 0;
+	}   
+	
+	public function get_product_info($id){
+		$query = $this->db->select('*')
+						->from('product_table')
+						->where('productID', $id)
+						->get();
+		return $query->row_array();
+	}
+	
+
 		function fetch_info()
 		{
 			$query 	= $this->db->query("SELECT * FROM `system_info` " );

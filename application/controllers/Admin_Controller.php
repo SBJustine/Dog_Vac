@@ -243,6 +243,49 @@ public function update_pet() {
     }
 }
 
+// product update 
+
+public function view_product() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (!isset($_POST['productID'])) {
+            echo json_encode(['error' => 'Product ID is not provided']);
+            return;
+        }
+
+        $id = $_POST['productID'];
+
+        $product = $this->Users_model->get_product_info($id);
+
+        if ($product) {
+            echo json_encode($product);
+        } else {
+            echo json_encode(['error' => 'Product not found']);
+        }
+    } else {
+        echo json_encode(['error' => 'Invalid request method']);
+    }
+}
+
+public function update_product() {
+    $productID = $this->input->post('productID');
+
+    $data = array(
+        'productName' => $this->input->post('productName'),
+        'cost' => $this->input->post('cost'),
+        'quantity' => $this->input->post('quantity'),
+        'category' => $this->input->post('category'),
+        'dateAdded' => $this->input->post('dateAdded')
+    );
+
+    $update_result = $this->Users_model->update_product($productID, $data);
+
+    if ($update_result) {
+        echo json_encode(array('success' => true));
+    } else {
+        echo json_encode(array('error' => true, 'message' => 'Failed to update product'));
+    }
+}
+
 
 	
 	public function dashboard()

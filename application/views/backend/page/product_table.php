@@ -18,7 +18,7 @@
                                     <input type="text" class="form-control" id="searchProductInput" placeholder="Search...">
                                 </div>
                             </div>
-                            <table class="table text-start align-middle table-bordered table-hover mb-0" id="productTable">
+                            <table class="table datanew" id="productTable">
                                 <thead>
                                     <tr>
                                         <th scope="col" onclick="sortTable('productTable', 0)">
@@ -50,7 +50,7 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($productUsers as $key => $user): ?>
-                                        <tr class="<?php echo $key % 2 === 0 ? 'bg-light' : 'bg-white'; ?>">
+                                        <tr class="<?php echo $key % 2 === 0 ? 'bg-light' : 'bg-white'; ?>" data-product-id="<?= $user->productID; ?>">
                                             <td><?php echo $user->productID; ?></td>
                                             <td><?php echo $user->productName; ?></td>
                                             <td><?php echo $user->cost; ?></td>
@@ -70,6 +70,130 @@
             </div>
         </div>
     </div>
+    
+    </main>
+
+
+        <!-- Update Product Modal -->
+        <div id="updateProductModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Product Information</h4>
+                </div>
+                <div class="modal-body">	
+                    <!-- Form to update pet information -->
+                    <form autocomplete="off" class="form" role="form" id="updateProductForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="productName">Name</label>
+                                    <input type="text" class="form-control" name="productName" id="productName" value="<?= $property->productName ?? '' ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cost">Cost</label>
+                                    <input type="text" class="form-control" name="cost" id="cost" value="<?= $property->cost ?? '' ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">Quantity</label>
+                                    <input type="text" class="form-control" name="quantity" id="quantity" value="<?= $property->quantity ?? '' ?>">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="category">Category</label>
+                                    <select class="form-control" name="category" id="category" value="<?= $property->category ?? '' ?>">
+                                        <option value="Dog">Dog</option>
+                                        <option value="Cat">Cat</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dateAdded">Date Added</label>
+                                    <input type="date" class="form-control" name="dateAdded" id="dateAdded" value="<?= $property->dateAdded ?? '' ?>">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" title="Update" class="btn btn-primary" id="update_button">Update</button>
+                    <button type="button" title="Cancel" class="btn btn-secondary" data-dismiss="modal" id="update_cancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+    $(document).ready(function () {
+        var productID;
+
+        $('table.datanew tbody').on('click', 'tr', function () {
+            productID = $(this).data('product-id');
+            $('#updateProductModal').modal('show');
+
+            $.ajax({
+                type: "POST",
+                url: "Admin_Controller/view_product",
+                data: { productID: productID },
+                success: function (response) {
+                    var productData = JSON.parse(response);
+                    if (productData && !$.isEmptyObject(productData)) {
+                        console.log("Product data:", productData);
+                        $('#productName').val(productData.productName);
+                        $('#cost').val(productData.cost);
+                        $('#quantity').val(productData.quantity);
+                        $('#category').val(productData.category);
+                        $('#dateAdded').val(productData.dateAdded);
+                    } else {
+                        console.error('Empty product data received');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+
+        $('#update_button').click(function () {
+            var productName = $('#productName').val();
+            var cost = $('#cost').val();
+            var quantity = $('#quantity').val();
+            var category = $('#category').val();
+            var dateAdded = $('#dateAdded').val();
+
+            $.ajax({
+                type: "POST",
+                url: "Admin_Controller/update_product",
+                data: {
+                    productID: productID,
+                    productName: productName,
+                    cost: cost,
+                    quantity: quantity,
+                    category: category,
+                    dateAdded: dateAdded
+                },
+                success: function (response) {
+                    console.log("Product updated successfully:", response);
+                    $('#updateProductModal').modal('hide');
+                    location.reload(); // Reload the page
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error updating product:', error);
+                    // Optionally, handle errors
+                }
+            });
+        });
+
+        $('#update_cancel').click(function () {
+            $('#updateProductModal').modal('hide');
+        });
+    });
+</script>
+
+
+    
     
     <script>
         function sortTable(tableId, columnIndex) {
@@ -158,4 +282,3 @@
             $('#productTable').DataTable();
         });
     </script>
-</main>

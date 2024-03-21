@@ -56,6 +56,7 @@
             </div>
         </div>
     </div>
+    </main>
 
     <!-- Update Pet Modal -->
     <div id="updatePetModal" class="modal fade" role="dialog">
@@ -109,7 +110,7 @@
             </div>
         </div>
     </div>
-</main>
+
 
 
 
@@ -180,11 +181,12 @@
             }
         });
     });
-});
+
 
     $('#update_cancel').click(function() {
         $('#updatePetModal').modal('hide');
     });
+});
 
 
 </script>
